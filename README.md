@@ -15,14 +15,20 @@ A self-directed Power BI portfolio project exploring how a multi-branch retailer
 Retail sales are often recorded at transaction level, while operational decisions depend on broader questions: How are sales changing over time? Which branches contribute most? What is happening across product categories? Are customer transactions or basket values changing? This project organizes a synthetic retail dataset into a Power BI dashboard designed to make those questions easier to explore.
 ## Dashboard Preview
 
+The screenshots below were uploaded to this repository under the `assets/` folder.
+
 ### Full Dashboard
-![Full Dashboard](assets/dashboard/full_dashboard.png)
+
+![Full Dashboard](assets/Full_Dashboardd.png)
 
 ### KPI Cards
-![KPI Cards](assets/dashboard/kpi_cards.png)
+
+![KPI Cards](assets/KPI_Cards.png)
 
 ### Charts & Insights
-![Charts and Insights](assets/dashboard/charts_and_insights.png)
+
+![Charts and Insights](assets/Charts_and_Insights.png)
+
 ### Analytical workflow
 
 ```mermaid
@@ -102,7 +108,7 @@ These outputs demonstrate an analytical workflow. They do **not** establish actu
 
 ### Power BI file and dashboard screenshots
 
-The working PBIX file and Excel source are available in the project creator's working files, but **the binary files are not yet attached to this GitHub repository**. This page deliberately avoids nonfunctional download links or presenting an older dashboard screenshot as an export of the current `SalesDashboard.pbix`. Once the final sanitized binary files are uploaded, the direct links and actual report screenshots can be added here.
+Three dashboard screenshots are now included in [`assets/`](assets/) and displayed in the preview above. The working PBIX and Excel source files are **not yet attached to this repository**. Screenshots illustrate the portfolio dashboard; they should not be treated as proof that the exact latest `SalesDashboard.pbix` binary is downloadable here.
 
 ## Privacy & Data Provenance
 
