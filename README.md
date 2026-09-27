@@ -66,6 +66,110 @@ The report's presentation combines summary KPIs with drill-down views so the act
 
 For the names verified in the report's visual definitions and examples of commonly used DAX patterns, see **[KPI & DAX documentation](docs/kpis-and-dax.md)**. The sample formulas there are *illustrations*: the PBIX model's original expression bodies have not been extracted verbatim.
 
+## Selected DAX Measures
+
+The following examples demonstrate the logic behind the dashboard's KPI and narrative layer. **These are portfolio-friendly illustrative DAX patterns based on the report's measures, not a verbatim export of the formulas stored in `SalesDashboard.pbix`.** Verify names and model relationships before reusing them.
+
+### Total Sales
+
+```dax
+Total Sales =
+SUM ( Sales_Raw[Sales_Amount] )
+```
+
+Calculates sales in the active month, branch and category filter context.
+
+### Total Transactions
+
+```dax
+Total Transactions =
+DISTINCTCOUNT ( Sales_Raw[Transaction_ID] )
+```
+
+Counts distinct transaction IDs in the current selection.
+
+### Total Quantity
+
+```dax
+Total Quantity =
+SUM ( Sales_Raw[Quantity] )
+```
+
+Adds the units sold for the active filters.
+
+### Avg. Transaction Value
+
+```dax
+Avg. Transaction Value =
+DIVIDE ( [Total Sales], [Total Transactions], 0 )
+```
+
+Calculates average sales per transaction while handling an empty denominator.
+
+### Best Branch Insight
+
+```dax
+Best Branch Insight =
+VAR TopBranch =
+    TOPN (
+        1,
+        ADDCOLUMNS (
+            VALUES ( Branches[Branch_Name] ),
+            "@Sales", [Total Sales]
+        ),
+        [@Sales], DESC,
+        Branches[Branch_Name], ASC
+    )
+VAR BranchName =
+    MAXX ( TopBranch, Branches[Branch_Name] )
+VAR BranchSales =
+    MAXX ( TopBranch, [@Sales] )
+RETURN
+    IF (
+        ISBLANK ( BranchName ),
+        "No branch data for this selection.",
+        BranchName
+            & " with "
+            & FORMAT ( BranchSales, "#,##0" )
+            & " SAR in sales."
+    )
+```
+
+Illustrates a dynamic branch summary under the active filters. The branch-name tie-breaker makes ties deterministic; this formula does not establish the exact tie handling in the original report.
+
+### Sales Trend Insight
+
+```dax
+Sales Trend Insight =
+VAR CurrentSales =
+    [Total Sales]
+VAR PrevSales =
+    CALCULATE (
+        [Total Sales],
+        DATEADD ( DateTable[Date], -1, MONTH )
+    )
+VAR DeltaPct =
+    DIVIDE ( CurrentSales - PrevSales, PrevSales )
+RETURN
+    IF (
+        ISBLANK ( PrevSales ) || PrevSales = 0,
+        "No comparable previous-month sales.",
+        IF (
+            DeltaPct >= 0,
+            "Sales increased by "
+                & FORMAT ( DeltaPct, "0.0%" )
+                & " vs previous month.",
+            "Sales decreased by "
+                & FORMAT ( ABS ( DeltaPct ), "0.0%" )
+                & " vs previous month."
+        )
+    )
+```
+
+Illustrates a text-based month-over-month comparison. It assumes a correctly related, continuous `DateTable` and an appropriate monthly date selection.
+
+[See the full KPI and DAX notes →](docs/kpis-and-dax.md)
+
 ## Data & Modeling
 
 The original working dataset is an Excel workbook named `Jeddah_Retail_Sales_Synthetic_3M.xlsx`. Its model comprises transaction data and descriptive tables for branches, products and targets. The report uses a date table for time-based analysis. The report also references a `Branch Performance` table for some analytical text and KPI visuals.
