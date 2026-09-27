@@ -13,7 +13,16 @@ A self-directed Power BI portfolio project exploring how a multi-branch retailer
 ## Project Overview
 
 Retail sales are often recorded at transaction level, while operational decisions depend on broader questions: How are sales changing over time? Which branches contribute most? What is happening across product categories? Are customer transactions or basket values changing? This project organizes a synthetic retail dataset into a Power BI dashboard designed to make those questions easier to explore.
+## Dashboard Preview
 
+### Full Dashboard
+![Full Dashboard](assets/dashboard/full_dashboard.png)
+
+### KPI Cards
+![KPI Cards](assets/dashboard/kpi_cards.png)
+
+### Charts & Insights
+![Charts and Insights](assets/dashboard/charts_and_insights.png)
 ### Analytical workflow
 
 ```mermaid
